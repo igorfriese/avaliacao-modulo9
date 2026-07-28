@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using avaliacao_modulo9.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseMySQL(connectionString));
 
 var app = builder.Build();
 

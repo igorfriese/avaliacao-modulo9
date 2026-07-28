@@ -20,4 +20,9 @@
     <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.26" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Conta\" />
+    <Folder Include="Views\Tarefas\" />
+  </ItemGroup>
+
 </Project>
