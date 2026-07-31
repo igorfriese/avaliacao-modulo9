@@ -1,0 +1,51 @@
+﻿@model avaliacao_modulo9.Models.Tarefa
+
+@{
+    ViewData["Title"] = "Excluir uma Tarefa";
+}
+
+<div class = "card shadow border-danger">
+    <div class = "card-header bg-danger text-white">
+        <h3 class = "mb-0">Excluir uma Tarefa</h3>
+    </div>
+
+    <div class = "card-body">
+        <div class = "alert alert-warning mb-4">
+            <strong>Atenção!</strong> Esta ação não poderá ser desfeita. Tem certeza que deseja excluir esta tarefa?
+        </div>
+
+        <dl class = "row">
+            <dt class = "col-sm-3">Título</dt>
+            <dd class = "col-sm-9">@Model.Titulo</dd>
+
+            <dt class = "col-sm-3">Descrição</dt>
+            <dd class = "col-sm-9">@Model.Descricao</dd>
+
+            <dt class = "col-sm-3">Data</dt>
+            <dd class = "col-sm-9">@Model.Data.ToString("dd/MM/yyyy")</dd>
+
+            <dt class = "col-sm-3">Status</dt>
+            <dd class = "col-sm-9">
+                @if (Model.StatusConcluida)
+                {
+                    <span class = "badge bg-success">Concluída</span>
+                }
+                else
+                {
+                    <span class = "badge bg-warning text-dark">Pendente</span>
+                }
+            </dd>
+        </dl>
+
+        <hr />
+
+        <form asp-action = "Delete" method = "post">
+            <input type = "hidden" asp-for = "Id"/>
+            
+            <div class = "d-flex gap-2">
+                <button class = "btn btn-danger">Excluir</button>
+                <a asp-action = "Delete" class = "btn btn-secondary">Cancelar</a>
+                </div>
+        </form>
+    </div>
+</div>
