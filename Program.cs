@@ -11,6 +11,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseMySQL(connectionString));
 
+builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
