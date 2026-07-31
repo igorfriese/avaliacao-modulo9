@@ -10,8 +10,8 @@ namespace avaliacao_modulo9.Models
         [StringLength(100, ErrorMessage = "O título não pode ter mais de 100 caracteres.")]
         public string Titulo { get; set; }
 
-        [Required(ErrorMessage = "O título é obrigatório.")]
-        [StringLength(500, ErrorMessage = "O título não pode ter mais de 500 caracteres.")]
+        [Required(ErrorMessage = "A descrição é obrigatório.")]
+        [StringLength(500, ErrorMessage = "A descrição não pode ter mais de 500 caracteres.")]
         public string Descricao { get; set; }
 
         [Required(ErrorMessage = "A data é obrigatória.")]
