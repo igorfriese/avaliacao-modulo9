@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using avaliacao_modulo9.Data;
 using avaliacao_modulo9.Models;
+using System.Linq;
+using System.Security.Claims;
 
 namespace avaliacao_modulo9.Controllers
 {
@@ -15,12 +17,20 @@ namespace avaliacao_modulo9.Controllers
 
         // Index exibe lista todas as tarefas
         
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool? status)
         {
             try
             {
                 // Busca todas as tarefas do repositório
                 var tarefas = await _tarefaRepositorio.ObterTodasAsync();
+
+                // Filtra por status, caso informado
+                if (status.HasValue)
+                {
+                    tarefas = tarefas
+                        .Where(t => t.StatusConcluida == status.Value)
+                        .ToList();
+                }
 
                 // Passa para a view
                 return View(tarefas);
@@ -39,7 +49,7 @@ namespace avaliacao_modulo9.Controllers
         {
             // Se não passou ID, redireciona para Index
             if (id == null)
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
 
             // Busca a tarefa pelo ID
             var tarefa = await _tarefaRepositorio.ObterPorIdAsync(id.Value);
@@ -65,7 +75,7 @@ namespace avaliacao_modulo9.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Titulo,Descricao,Data")] Tarefa tarefa)
+        public async Task<IActionResult> Create([Bind("Titulo,Descricao,Data,StatusConcluida")] Tarefa tarefa)
         {
             try
             {
@@ -80,7 +90,7 @@ namespace avaliacao_modulo9.Controllers
                     await _tarefaRepositorio.CriarAsync(tarefa);
 
                     // Redireciona para Index
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
             }
             catch (Exception ex)
@@ -99,7 +109,7 @@ namespace avaliacao_modulo9.Controllers
         {
             // Se não passou ID redireciona para Index
             if (id == null)
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
 
             // Busca a tarefa
             var tarefa = await _tarefaRepositorio.ObterPorIdAsync(id.Value);
@@ -131,7 +141,7 @@ namespace avaliacao_modulo9.Controllers
                     await _tarefaRepositorio.AtualizarAsync(tarefa);
 
                     // Redireciona para Index
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
             }
             catch (Exception ex)
@@ -150,7 +160,7 @@ namespace avaliacao_modulo9.Controllers
         {
             // Se não passou ID, redireciona para Index
             if (id == null)
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
 
             // Busca a tarefa
             var tarefa = await _tarefaRepositorio.ObterPorIdAsync(id.Value);
@@ -171,7 +181,7 @@ namespace avaliacao_modulo9.Controllers
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (id == null)
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
 
             try
             {
@@ -179,10 +189,12 @@ namespace avaliacao_modulo9.Controllers
                 var resultado = await _tarefaRepositorio.DeletarAsync(id.Value);
 
                 // Se conseguiu deletar, retorna para Index
-                if (resultado)
-                    return RedirectToAction("Index");
-                else
+                if (!resultado)
+                {
                     return NotFound();
+                }
+
+                    return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {

@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Conta\" />
-    <Folder Include="Views\Tarefas\" />
   </ItemGroup>
 
 </Project>

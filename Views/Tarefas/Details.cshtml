@@ -1,0 +1,43 @@
+﻿@model avaliacao_modulo9.Models.Tarefa
+
+@{
+    ViewData["Title"] = "Detalhes da Tarefa";
+}
+
+<div class = "card shadow">
+    <div class = "card-header bg-primary text-white">
+        <h3 class = "mb-0">Detalhes da Tarefa</h3>
+    </div>
+
+    <div class = "card-body">
+        <dl class = "row">
+            <dt class = "col-sm-3">Titulo</dt>
+            <dd class = "col-sm-9">@Model.Titulo</dd>
+
+            <dt class = "col-sm-3">Descrição</dt>
+            <dd class = "col-sm-9">@Model.Descricao</dd>
+
+            <dt class = "col-sm-3">Data</dt>
+            <dd class = "col-sm-9">@Model.Data.ToString("dd/MM/yyyy")</dd>
+
+            <dt class = "col-sm-3">Status</dt>
+            <dd class = "col-sm-9">
+                @if (Model.StatusConcluida)
+                {
+                    <span class = "badge bg-success">Concluída</span>
+                }
+                else
+                {
+                    <span class = "badge bg-warning text-dark">Pendente</span>
+                }
+            </dd>
+        </dl>
+
+        <hr />
+
+        <div class = "d-flex gap-2">
+        <a asp-action = "Edit" asp-route-id = "@Model.Id" class = "btn btn-warning">Editar</a>
+        <a asp-action = "Index" class = "btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+</div>
