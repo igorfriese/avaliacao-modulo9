@@ -1,0 +1,45 @@
+﻿@model avaliacao_modulo9.ViewModels.CadastroViewModel
+
+@{
+    ViewData["Title"] = "Cadastro";
+}
+
+<h2>Criar Conta</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Conta" asp-action="Registro" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Senha" class="control-label"></label>
+                <input asp-for="Senha" class="form-control" type="password" />
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+
+        <p class="mt-3">
+            Já tem conta? <a asp-controller="Conta" asp-action="Login">Faça login</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
