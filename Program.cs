@@ -1,5 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using avaliacao_modulo9.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(connectionString));
 
 builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Conta/Login";
+        options.LogoutPath = "/Conta/Logout";
+        options.AccessDeniedPath = "/Conta/Login";
+    });
 
 var app = builder.Build();
 
@@ -28,10 +37,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Tarefas}/{action=Index}/{id?}");
 
 app.Run();

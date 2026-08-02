@@ -13,6 +13,7 @@
         <form asp-action = "Edit" method = "Post">
             <div asp-validation-summary = "ModelOnly" class = "text-danger mb-3"></div>
             <input type = "hidden" asp-for = "Id"/>
+            <input type="hidden" asp-for="UsuarioId" />
 
             <div class = "mb-3">
                 <label asp-for = "Titulo" class = "form-label"></label>
